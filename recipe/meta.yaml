@@ -1,40 +1,41 @@
 {% set name = "urbansim" %}
-{% set version = "3.2" %}
-{% set sha256 = "c3ded3bd19b7ea7cedfa1ae50af9ccd9ec9da6dd9585adbf0b776e6c92b89e1e" %}
+{% set version = "3.3" %}
+{% set sha256 = "4c1f0bd0d44ed8604afa812cd103ef4188ad0b921ca6864482e48ed9528c974d" %}
+{% set python_min = "3.10" %}
 
 package:
   name: {{ name|lower }}
-  version: {{ version }}
+  version: "{{ version }}"
 
 source:
   url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
   sha256: {{ sha256 }}
 
-
 build:
   noarch: python
-  number: 1
-  script: "{{ PYTHON }} -m pip install . -vv"
+  number: 0
+  script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
 
 requirements:
   host:
     - python {{ python_min }}
     - pip
+    - setuptools >=77
   run:
     - python >={{ python_min }}
-    - numpy >=1.8.0
-    - orca >=1.1
-    - pandas >=0.17.0
-    - patsy >=0.4.1
-    - prettytable >=0.7.2
-    - pyyaml >=3.10
-    - scipy >=1.0
-    - statsmodels >=0.8
-    - toolz >=0.8.1
+    - numpy >=1.26
+    - orca >=1.8
+    - pandas >=2.2,<4
+    - patsy >=0.5.6
+    - prettytable >=3.10
+    - pyyaml >=6.0
+    - scipy >=1.10
+    - statsmodels >=0.14
+    - toolz >=0.12
 
 test:
-  requires:
-    - python {{ python_min }}
+  source_files:
+    - urbansim
   imports:
     - urbansim
     - urbansim.developer
@@ -42,15 +43,33 @@ test:
     - urbansim.models
     - urbansim.urbanchoice
     - urbansim.utils
+  requires:
+    - python {{ python_min }}
+    - pip
+    - pytest
+    - bottle
+    - jinja2
+    - matplotlib-base
+    - simplejson
+    - pandana >=0.8
+  commands:
+    - pip check
+    - pytest urbansim -q
 
 about:
-  home: https://github.com/udst/urbansim
+  home: https://github.com/UDST/urbansim
   license: BSD-3-Clause
   license_family: BSD
   license_file: LICENSE.txt
-  summary: 'Platform for building statistical models of cities and regions'
+  summary: Platform for building statistical models of cities and regions
+  description: |
+    UrbanSim is a platform for building statistical models of cities and regions,
+    with tools for statistical estimation and simulation, domain-specific logic
+    about housing markets, household relocation, and real estate development, and
+    utilities for assembling a model. It's part of the Urban Data Science Toolkit
+    (UDST).
   doc_url: https://udst.github.io/urbansim/
-  dev_url: https://github.com/udst/urbansim
+  dev_url: https://github.com/UDST/urbansim
 
 extra:
   recipe-maintainers:
