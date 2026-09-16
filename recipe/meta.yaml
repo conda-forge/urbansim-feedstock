@@ -1,6 +1,6 @@
 {% set name = "urbansim" %}
-{% set version = "3.2" %}
-{% set sha256 = "c3ded3bd19b7ea7cedfa1ae50af9ccd9ec9da6dd9585adbf0b776e6c92b89e1e" %}
+{% set version = "3.3" %}
+{% set sha256 = "4c1f0bd0d44ed8604afa812cd103ef4188ad0b921ca6864482e48ed9528c974d" %}
 
 package:
   name: {{ name|lower }}
@@ -13,7 +13,7 @@ source:
 
 build:
   noarch: python
-  number: 1
+  number: 0
   script: "{{ PYTHON }} -m pip install . -vv"
 
 requirements:
